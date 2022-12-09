@@ -2,7 +2,11 @@ package com.peaksoft.controller;
 
 import com.peaksoft.dto.request.CourseRequest;
 import com.peaksoft.dto.response.CourseResponse;
+import com.peaksoft.dto.response.GroupResponse;
+import com.peaksoft.dto.response.InstructorResponse;
 import com.peaksoft.service.CourseService;
+import com.peaksoft.service.GroupService;
+import com.peaksoft.service.InstructorService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,6 +20,8 @@ import java.util.List;
 public class CourseController {
 
     private final CourseService courseService;
+    private final GroupService groupService;
+    private final InstructorService instructorService;
 
     @GetMapping("/getAllCourse")
     public List<CourseResponse> getAllCourse() {
@@ -32,7 +38,7 @@ public class CourseController {
         return courseService.getCourseById(id);
     }
 
-    @PostMapping("/{companyId}/saveCourse")
+    @PostMapping("/saveCourse/{companyId}")
     public CourseResponse saveCourse(@PathVariable Long companyId, @RequestBody CourseRequest courseRequest) throws IOException {
         return courseService.saveCourse(companyId, courseRequest);
     }
@@ -42,24 +48,20 @@ public class CourseController {
         return courseService.updateCourse(id, courseRequest);
     }
 
-    @DeleteMapping("/deleteCourseById/{id}")
-    public CourseResponse deleteCourseById(@PathVariable Long id) {
-        return courseService.deleteCourse(id);
+    @DeleteMapping("/deleteCourseById/{id}/{groupId}")
+    public CourseResponse deleteCourseById(@PathVariable Long id, @PathVariable Long groupId) {
+        return courseService.deleteCourse(groupId, id);
     }
-//
-//    @PostMapping("/{courseId}/assignGroup")
-//    private String assignGroup(@PathVariable Long courseId,
-//                               @ModelAttribute("group") Group group) throws IOException {
-//        System.out.println(group);
-//        Long id = group.getId();
-//        groupService.assignGroup(courseId, id);
-//        return "redirect:/getAllGroupByCourseId/" + courseId;
-//    }
-//
-//    @PostMapping("/{courseId}/assignInstructor")
-//    private String assignInstructorToCourse(@PathVariable("courseId") Long courseId,
-//                                            @ModelAttribute("instructor") Instructor instructor) throws IOException {
-//        instructorService.assignInstructor(instructor.getId(), courseId);
-//        return "redirect:/getAllInstructorByCourseId/ " + courseId;
-//    }
+
+    @PostMapping("assignGroupToCourse/{courseId}/{id}")
+    private GroupResponse assignGroupToCourse(@PathVariable Long courseId,
+                                              @PathVariable Long id) throws IOException {
+        return groupService.assignGroup(courseId, id);
+    }
+
+    @PostMapping("/assignInstructor/{id}/{courseId}")
+    private InstructorResponse assignInstructorToCourse(@PathVariable Long id,
+                                                        @PathVariable Long courseId) throws IOException {
+        return instructorService.assignInstructor(id, courseId);
+    }
 }

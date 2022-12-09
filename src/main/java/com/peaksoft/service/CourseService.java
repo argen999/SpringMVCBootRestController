@@ -12,6 +12,6 @@ public interface CourseService {
     CourseResponse getCourseById(Long id);
     CourseResponse saveCourse(Long companyId, CourseRequest course) throws IOException;
     CourseResponse updateCourse(Long id, CourseRequest course);
-    CourseResponse deleteCourse(Long id);
+    CourseResponse deleteCourse(Long groupId, Long id);
 
 }

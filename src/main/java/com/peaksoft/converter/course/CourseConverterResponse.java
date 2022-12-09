@@ -1,8 +1,6 @@
 package com.peaksoft.converter.course;
 
-import com.peaksoft.dto.response.CompanyResponse;
 import com.peaksoft.dto.response.CourseResponse;
-import com.peaksoft.entity.Company;
 import com.peaksoft.entity.Course;
 import org.springframework.stereotype.Component;
 
@@ -10,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Component
-public class CourseConvertResponse {
+public class CourseConverterResponse {
 
     public CourseResponse create(Course course) {
         if (course == null) return null;

@@ -1,13 +1,15 @@
 package com.peaksoft.service.serviceimpl;
 
-import com.peaksoft.converter.course.CourseConvertRequest;
-import com.peaksoft.converter.course.CourseConvertResponse;
+import com.peaksoft.converter.course.CourseConverterRequest;
+import com.peaksoft.converter.course.CourseConverterResponse;
 import com.peaksoft.dto.request.CourseRequest;
 import com.peaksoft.dto.response.CourseResponse;
 import com.peaksoft.entity.Company;
 import com.peaksoft.entity.Course;
+import com.peaksoft.entity.Group;
 import com.peaksoft.repository.CompanyRepository;
 import com.peaksoft.repository.CourseRepository;
+import com.peaksoft.repository.GroupRepository;
 import com.peaksoft.service.CourseService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -21,8 +23,9 @@ public class CourseServiceImpl implements CourseService {
 
     private final CompanyRepository companyRepository;
     private final CourseRepository courseRepository;
-    private final CourseConvertRequest courseConvertRequest;
-    private final CourseConvertResponse courseConvertResponse;
+    private final GroupRepository groupRepository;
+    private final CourseConverterRequest courseConvertRequest;
+    private final CourseConverterResponse courseConvertResponse;
 
     @Override
     public List<CourseResponse> getAllCourse() {
@@ -47,6 +50,7 @@ public class CourseServiceImpl implements CourseService {
         Course course = courseConvertRequest.create(courseRequest);
         company.addCourse(course);
         course.setCompany(company);
+        courseRepository.save(course);
         return courseConvertResponse.create(course);
     }
 
@@ -58,8 +62,10 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
-    public CourseResponse deleteCourse(Long id) {
+    public CourseResponse deleteCourse(Long groupId, Long id) {
         Course course = courseRepository.findById(id).get();
+        Group group = groupRepository.findById(groupId).get();
+        group.remove(course);
         courseRepository.delete(course);
         return courseConvertResponse.create(course);
     }

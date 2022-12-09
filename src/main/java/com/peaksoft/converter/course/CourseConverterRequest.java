@@ -5,7 +5,7 @@ import com.peaksoft.entity.Course;
 import org.springframework.stereotype.Component;
 
 @Component
-public class CourseConvertRequest {
+public class CourseConverterRequest {
     public Course create(CourseRequest courseRequest) {
         if (courseRequest == null) return null;
         Course course = new Course();
@@ -16,8 +16,14 @@ public class CourseConvertRequest {
     }
 
     public void update(Course course, CourseRequest courseRequest) {
-        course.setCourseName(courseRequest.getCourseName());
-        course.setDuration(courseRequest.getDuration());
-        course.setDescription(courseRequest.getDescription());
+        if (courseRequest.getCourseName() != null) {
+            course.setCourseName(courseRequest.getCourseName());
+        }
+        if (courseRequest.getDuration() != null) {
+            course.setDuration(courseRequest.getDuration());
+        }
+        if (courseRequest.getDescription() != null) {
+            course.setDescription(courseRequest.getDescription());
+        }
     }
 }
