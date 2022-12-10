@@ -16,6 +16,6 @@ import java.time.LocalDate;
 public class TaskRequest {
     private String taskName;
     private String taskText;
-    @JsonFormat(pattern = "yyyy-mm-dd")
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate deadLine;
 }

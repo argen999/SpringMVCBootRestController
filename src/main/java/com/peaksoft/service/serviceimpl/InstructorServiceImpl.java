@@ -5,6 +5,7 @@ import com.peaksoft.converter.instructor.InstructorConverterResponse;
 import com.peaksoft.dto.request.InstructorRequest;
 import com.peaksoft.dto.response.InstructorResponse;
 import com.peaksoft.entity.Course;
+import com.peaksoft.entity.Group;
 import com.peaksoft.entity.Instructor;
 import com.peaksoft.repository.CourseRepository;
 import com.peaksoft.repository.InstructorRepository;
@@ -45,6 +46,11 @@ public class InstructorServiceImpl implements InstructorService {
     public InstructorResponse saveInstructor(Long courseId, InstructorRequest instructorRequest) throws IOException {
         Course course = courseRepository.findById(courseId).get();
         Instructor instructor = instructorConverterRequest.create(instructorRequest);
+        for (Group g : course.getGroups()) {
+            if (g.getStudents().size() != 0) {
+                instructor.setStudent(g.getStudents().size());
+            }
+        }
         course.addInstructor(instructor);
         instructor.setCourse(course);
         instructorRepository.save(instructor);

@@ -17,6 +17,6 @@ public class TaskResponse {
     private Long id;
     private String taskName;
     private String taskText;
-    @JsonFormat(pattern = "yyyy-mm-dd")
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate deadLine;
 }

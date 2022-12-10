@@ -6,6 +6,7 @@ import com.peaksoft.dto.request.GroupRequest;
 import com.peaksoft.dto.response.GroupResponse;
 import com.peaksoft.entity.Course;
 import com.peaksoft.entity.Group;
+import com.peaksoft.entity.Instructor;
 import com.peaksoft.repository.CourseRepository;
 import com.peaksoft.repository.GroupRepository;
 import com.peaksoft.service.GroupService;
@@ -61,6 +62,14 @@ public class GroupServiceImpl implements GroupService {
     public GroupResponse deleteGroup(Long courseId, Long id) {
         Course course = courseRepository.findById(courseId).get();
         Group group = groupRepository.findById(id).get();
+        for (Course c : group.getCourses()) {
+            c.getCompany().minus();
+        }
+        for (Course c : group.getCourses()) {
+            for (Instructor i : c.getInstructors()) {
+                i.minus();
+            }
+        }
         group.remove(course);
         groupRepository.delete(group);
         return groupConverterResponse.create(group);

@@ -29,7 +29,7 @@ public class Task {
     private String taskText;
 
     @Column
-    @JsonFormat(pattern = "yyyy-mm-dd")
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate deadLine;
 
     public Task(String taskName, String taskText, LocalDate deadLine) {
