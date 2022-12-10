@@ -53,7 +53,7 @@ public class LessonServiceImpl implements LessonService {
     public LessonResponse updateLesson(Long id, LessonRequest lessonRequest) {
         Lesson lesson = lessonRepository.findById(id).get();
         lessonConverterRequest.update(lesson, lessonRequest);
-        return lessonConverterResponse.create(lesson);
+        return lessonConverterResponse.create(lessonRepository.save(lesson));
     }
 
     @Override

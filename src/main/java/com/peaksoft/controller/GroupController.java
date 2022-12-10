@@ -2,9 +2,13 @@ package com.peaksoft.controller;
 
 import com.peaksoft.dto.request.GroupRequest;
 import com.peaksoft.dto.response.GroupResponse;
+import com.peaksoft.dto.response.StudentResponse;
 import com.peaksoft.service.GroupService;
+import com.peaksoft.service.StudentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -13,6 +17,7 @@ import java.util.List;
 public class GroupController {
 
     private final GroupService groupService;
+    private final StudentService studentService;
 
     @GetMapping("/getAllGroup")
     public List<GroupResponse> getAllGroup() {
@@ -44,11 +49,9 @@ public class GroupController {
         return groupService.deleteGroup(courseId, id);
     }
 
-
-//    @PostMapping("/{groupId}/assignStudent")
-//    private String assignStudent(@PathVariable("groupId") Long groupId,
-//                                 @ModelAttribute("student") Student student) throws IOException {
-//        studentService.assignStudent(student.getId(), groupId);
-//        return "redirect:/getAllStudentByGroupId/ " + groupId;
-//    }
+    @PostMapping("/assignStudent/{id}/{groupId}")
+    private StudentResponse assignStudent(@PathVariable Long id,
+                                          @PathVariable Long groupId) throws IOException {
+        return studentService.assignStudent(id, groupId);
+    }
 }

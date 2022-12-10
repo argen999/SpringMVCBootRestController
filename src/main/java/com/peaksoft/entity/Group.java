@@ -37,8 +37,8 @@ public class Group {
     @ManyToMany(cascade = {MERGE ,REFRESH, DETACH}, fetch = LAZY)
     private List<Course> courses;
 
-//    @OneToMany(cascade = ALL, fetch = LAZY, mappedBy = "group")
-//    private List<Student> students;
+    @OneToMany(cascade = ALL, fetch = LAZY, mappedBy = "group")
+    private List<Student> students;
 
     public Group(String groupName, LocalDate dataOfStart, String image) {
         this.groupName = groupName;
@@ -51,10 +51,10 @@ public class Group {
         courses.add(course);
     }
 
-//    public void addStudent(Student student) {
-//        if (students == null) students = new ArrayList<>();
-//        students.add(student);
-//    }
+    public void addStudent(Student student) {
+        if (students == null) students = new ArrayList<>();
+        students.add(student);
+    }
 
     public void remove(Course course){
         this.courses.remove(course);
